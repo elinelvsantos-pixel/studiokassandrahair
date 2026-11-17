@@ -1,0 +1,21 @@
+name: Uptime & Health Check (StudioKassandraHair)
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar disponibilidade HTTP e integridade do DOM
+        run: |
+          STATUS=$(curl -s -o page.html -w "%{http_code}" https://elinelvsantos-pixel.github.io/studiokassandrahair/)
+          echo "HTTP Status retornado: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "ALERTA CRITICO: Aplicacao fora do ar (DOWN) - HTTP $STATUS"
+            exit 1
+          fi
+          grep -q "StudioKassandraHair" page.html || (echo "ALERTA: Conteudo esperado ausente" && exit 1)
+          echo "Status UP: Aplicacao online e operacional."
