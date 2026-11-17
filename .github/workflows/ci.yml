@@ -24,6 +24,4 @@ jobs:
           pip install fastapi httpx pytest pytest-cov
 
       - name: Executar testes unitarios e de integracao
-        env:
-          PYTHONPATH: .
-        run: pytest -v --cov=backend --cov-report=term-missing
+        run: python -m pytest -v --cov=backend --cov-report=term-missing
