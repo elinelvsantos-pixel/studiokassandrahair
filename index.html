@@ -78,7 +78,7 @@
           <p><strong>Duração Estimada:</strong> <span id="txt-duracao">0 min</span></p>
 
           <div class="pix-box">
-            <label for="chave-pix">Chave PIX (E-mail / Celular):</label>
+            <label for="chave-pix">Chave PIX (Celular):</label>
             <div class="pix-row">
               <input type="text" id="chave-pix" value="83987547799" readonly />
               <button type="button" id="btn-copiar-pix" class="btn-secundario">Copiar PIX</button>
@@ -97,9 +97,26 @@
         <p id="erro-horario" class="erro-msg hidden" role="alert"></p>
 
         <button type="submit" class="btn-primario">
-          Confirmar Pré-Reserva e Enviar Comprovante no WhatsApp
+          Confirmar Pré-Reserva e Enviar Comprovante ao Salão
         </button>
       </form>
+    </section>
+
+    <!-- CARTÃO DE COMPROVANTE INSTANTÂNEO NA TELA DA CLIENTE -->
+    <section id="sec-comprovante" class="card hidden" aria-live="polite" style="border: 2px solid #16a34a;">
+      <h2 style="color: #166534; margin-top: 0;">Pré-Reserva Registrada com Sucesso!</h2>
+      <p>Guarde os detalhes do seu agendamento abaixo ou envie uma cópia para o seu próprio WhatsApp:</p>
+      
+      <div id="detalhes-comprovante" style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #cbd5e1;"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <a id="link-whatsapp-cliente" href="#" target="_blank" rel="noopener noreferrer" class="btn-primario" style="background: #16a34a; text-align: center; text-decoration: none;">
+          Salvar Comprovante / Enviar para mim mesma no WhatsApp
+        </a>
+        <button type="button" id="btn-novo-agendamento" class="btn-secundario">
+          Fazer Outro Agendamento
+        </button>
+      </div>
     </section>
   </main>
 
