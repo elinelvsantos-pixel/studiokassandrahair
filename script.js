@@ -1,6 +1,6 @@
 const STORAGE_USERS = "skh_usuarios_v1";
 const STORAGE_BOOKINGS = "skh_agendamentos_v1";
-const WHATSAPP_SALAO = "5583999999999"; // Substituir pelo número oficial da Kassandra
+const WHATSAPP_SALAO = "5583987547799";
 
 // Carrega profissionais cadastrados no portal de gestão (ou Kassandra como padrão)
 function carregarProfissionais() {
