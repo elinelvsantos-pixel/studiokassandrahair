@@ -11,6 +11,8 @@
       --card: #f9f6f8;
       --text: #1a1a1a;
       --green: #146c2e;
+      --red-bg: #fde8e8;
+      --red-border: #9b1c1c;
       --amber-bg: #fff6e5;
       --amber-border: #8a5300;
       --border: #d0c4cb;
@@ -21,6 +23,8 @@
       --card: #121212;
       --text: #ffff00;
       --green: #005a1f;
+      --red-bg: #2b0000;
+      --red-border: #ff6b6b;
       --amber-bg: #1f1a00;
       --amber-border: #ffd700;
       --border: #ffff00;
@@ -68,6 +72,15 @@
       margin: 16px 0;
       border-radius: 4px;
     }
+    .erro-horario {
+      display: none;
+      background: var(--red-bg);
+      border-left: 5px solid var(--red-border);
+      padding: 10px 14px;
+      margin-top: 8px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -94,6 +107,7 @@
       margin: 16px 0;
     }
     .lgpd-box input { width: 24px; height: 24px; min-height: 24px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .badge {
       display: inline-block;
       background: var(--green);
@@ -101,7 +115,22 @@
       padding: 6px 12px;
       border-radius: 6px;
       font-weight: bold;
-      margin-top: 8px;
+    }
+    .badge-tempo {
+      display: inline-block;
+      background: var(--plum);
+      color: #ffffff;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .pix-box {
+      background: var(--amber-bg);
+      border: 2px dashed var(--amber-border);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0;
     }
     .btn {
       display: inline-flex;
@@ -124,6 +153,7 @@
     }
     body.acessivel .btn { background: #ffff00; color: #000000; }
     .btn-whats { background: var(--green); color: #ffffff !important; }
+    .btn-pix { background: #1f2937; color: #ffffff !important; margin-top: 8px; }
     #resumo { display: none; border: 2px solid var(--green); }
   </style>
 </head>
@@ -140,19 +170,22 @@
     </header>
 
     <div class="aviso" role="status">
-      <strong>Aviso:</strong> Pré-reservas aguardando sinal expiram automaticamente em 15 minutos.
+      <strong>Aviso:</strong> Atendimento de terça a sábado (09h às 19h). Pré-reservas aguardando sinal expiram em 15 minutos.
     </div>
 
     <form class="card" onsubmit="gerarReserva(event)">
       <label for="servico">Selecione o Serviço</label>
       <select id="servico" onchange="atualizarSinal()">
-        <option value="80">Escova Modelada — R$ 80,00</option>
-        <option value="350">Mechas &amp; Iluminação — R$ 350,00</option>
-        <option value="180">Cronograma Capilar Completo — R$ 180,00</option>
-        <option value="95">Corte Bordado + Hidratação — R$ 95,00</option>
+        <option value="80" data-duracao="1h00">Escova Modelada (1h00) — R$ 80,00</option>
+        <option value="350" data-duracao="3h30">Mechas &amp; Iluminação (3h30) — R$ 350,00</option>
+        <option value="180" data-duracao="2h00">Cronograma Capilar Completo (2h00) — R$ 180,00</option>
+        <option value="95" data-duracao="1h15">Corte Bordado + Hidratação (1h15) — R$ 95,00</option>
       </select>
 
-      <div class="badge" id="badgeSinal">✓ Sinal 50%: R$ 40,00</div>
+      <div class="badges">
+        <span class="badge" id="badgeSinal">✓ Sinal 50%: R$ 40,00</span>
+        <span class="badge-tempo" id="badgeDuracao">⏱ Duração estimada: 1h00</span>
+      </div>
 
       <label for="nome">Nome Completo da Cliente</label>
       <input type="text" id="nome" placeholder="Ex.: Mariana Costa" required />
@@ -160,8 +193,9 @@
       <label for="whats">WhatsApp (DDD + Número)</label>
       <input type="tel" id="whats" placeholder="Ex.: (83) 99876-5432" required />
 
-      <label for="horario">Data e Horário Desejado</label>
-      <input type="datetime-local" id="horario" value="2026-11-18T14:00" required />
+      <label for="horario">Data e Horário Desejado (Terça a Sábado, 09h às 19h)</label>
+      <input type="datetime-local" id="horario" value="2026-11-18T14:00" onchange="validarJanelaComercial()" required />
+      <div class="erro-horario" id="erroHorario" role="alert" aria-live="polite"></div>
 
       <div class="lgpd-box">
         <input type="checkbox" id="lgpd" checked required />
@@ -178,6 +212,15 @@
     <section class="card" id="resumo" aria-live="polite">
       <h2>✓ Pré-Reserva Registrada (OS #SKH-2026)</h2>
       <p id="detalhesReserva"></p>
+
+      <div class="pix-box">
+        <strong>Chave PIX para Sinal (50%):</strong> <span id="chavePix">studiokassandrahair@pix.com.br</span><br>
+        <small>Titular: Kassandra • StudioKassandraHair (João Pessoa/PB)</small>
+        <button type="button" class="btn btn-pix" id="btnCopiarPix" onclick="copiarPix()">
+          Copiar Chave PIX
+        </button>
+      </div>
+
       <a class="btn btn-whats" id="linkWhats" target="_blank" rel="noopener">
         Enviar Comprovante do Sinal pelo WhatsApp
       </a>
@@ -186,44 +229,9 @@
 
   <script>
     function atualizarSinal() {
-      const total = Number(document.getElementById('servico').value);
+      const select = document.getElementById('servico');
+      const total = Number(select.value);
+      const duracao = select.options[select.selectedIndex].dataset.duracao;
       const sinal = (total / 2).toFixed(2).replace('.', ',');
       document.getElementById('badgeSinal').textContent = `✓ Sinal 50%: R$ ${sinal}`;
-      document.getElementById('btnContinuar').textContent = `Continuar para Sinal (R$ ${sinal})`;
-    }
-
-    function gerarReserva(e) {
-      e.preventDefault();
-      const select = document.getElementById('servico');
-      const servicoTexto = select.options[select.selectedIndex].text;
-      const total = Number(select.value);
-      const sinal = (total / 2).toFixed(2).replace('.', ',');
-      const saldo = (total / 2).toFixed(2).replace('.', ',');
-      const nome = document.getElementById('nome').value;
-      const whats = document.getElementById('whats').value;
-      const horario = document.getElementById('horario').value.replace('T', ' às ');
-
-      document.getElementById('detalhesReserva').innerHTML =
-        `<strong>Cliente:</strong> ${nome} (${whats})<br>` +
-        `<strong>Serviço:</strong> ${servicoTexto}<br>` +
-        `<strong>Horário:</strong> ${horario}<br>` +
-        `<strong>Sinal Obrigatório (50%):</strong> R$ ${sinal} | <strong>Saldo no Salão:</strong> R$ ${saldo}<br>` +
-        `<strong>Status:</strong> Aguardando envio do comprovante (expira em 15 min).`;
-
-      const msg = encodeURIComponent(`Olá! Segue pré-reserva de ${nome} - ${servicoTexto} (${horario}). Sinal 50%: R$ ${sinal}.`);
-      document.getElementById('linkWhats').href = `https://wa.me/5583999999999?text=${msg}`;
-
-      const resumo = document.getElementById('resumo');
-      resumo.style.display = 'block';
-      resumo.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function alternarAcessibilidade() {
-      const ativo = document.body.classList.toggle('acessivel');
-      const btn = document.getElementById('btnA11y');
-      btn.setAttribute('aria-pressed', ativo);
-      btn.textContent = ativo ? '♿ Desativar Alto Contraste' : '♿ Alto Contraste + Fonte A+';
-    }
-  </script>
-</body>
-</html>
+      document.getElementById('badgeDuracao').textContent = `⏱ Duração
