@@ -3,41 +3,227 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudioKassandraHair — Agendamento Online</title>
+  <title>StudioKassandraHair – Agendamento Online</title>
   <style>
     :root {
       --plum: #4a0e2e;
       --bg: #ffffff;
+      --card: #f9f6f8;
       --text: #1a1a1a;
       --green: #146c2e;
-      --amber: #8a5300;
+      --amber-bg: #fff6e5;
+      --amber-border: #8a5300;
+      --border: #d0c4cb;
     }
-    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
-    header { background: var(--plum); color: #fff; padding: 16px; border-radius: 8px; }
+    body.acessivel {
+      --plum: #000000;
+      --bg: #000000;
+      --card: #121212;
+      --text: #ffff00;
+      --green: #005a1f;
+      --amber-bg: #1f1a00;
+      --amber-border: #ffd700;
+      --border: #ffff00;
+      font-size: 1.2rem;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 16px;
+      line-height: 1.5;
+    }
+    .container { max-width: 680px; margin: 0 auto; }
+    header {
+      background: var(--plum);
+      color: #ffffff;
+      padding: 18px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header h1 { margin: 0 0 4px 0; font-size: 1.5rem; }
+    header p { margin: 0; font-size: 0.95rem; }
+    .btn-a11y {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 10px 16px;
+      background: #ffffff;
+      color: #1a1a1a;
+      border: 2px solid #ffff00;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    body.acessivel .btn-a11y { background: #ffff00; color: #000000; }
+    .aviso {
+      background: var(--amber-bg);
+      border-left: 5px solid var(--amber-border);
+      padding: 12px 14px;
+      margin: 16px 0;
+      border-radius: 4px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    label { display: block; font-weight: bold; margin: 12px 0 6px 0; }
+    input, select {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+      box-sizing: border-box;
+    }
+    .lgpd-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .lgpd-box input { width: 24px; height: 24px; min-height: 24px; }
+    .badge {
+      display: inline-block;
+      background: var(--green);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
     .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-height: 48px; min-width: 48px; width: 100%; padding: 12px 16px;
-      font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
-      background: var(--plum); color: #fff; border: none; margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      min-width: 48px;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--plum);
+      color: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      box-sizing: border-box;
+      margin-top: 10px;
     }
-    .badge-pago { background: var(--green); color: #fff; padding: 6px 10px; border-radius: 6px; font-weight: bold; }
-    .alerta { background: #fff4e5; border-left: 6px solid var(--amber); padding: 12px; margin: 12px 0; }
+    body.acessivel .btn { background: #ffff00; color: #000000; }
+    .btn-whats { background: var(--green); color: #ffffff !important; }
+    #resumo { display: none; border: 2px solid var(--green); }
   </style>
 </head>
 <body>
-  <header>
-    <h1>StudioKassandraHair</h1>
-    <p>João Pessoa • Agende com sinal de 50%</p>
-  </header>
-  <main>
-    <div class="alerta" role="status">
+  <div class="container">
+    <header>
+      <div>
+        <h1>StudioKassandraHair</h1>
+        <p>João Pessoa • Agende com sinal de 50%</p>
+      </div>
+      <button type="button" class="btn-a11y" id="btnA11y" aria-pressed="false" onclick="alternarAcessibilidade()">
+        ♿ Alto Contraste + Fonte A+
+      </button>
+    </header>
+
+    <div class="aviso" role="status">
       <strong>Aviso:</strong> Pré-reservas aguardando sinal expiram automaticamente em 15 minutos.
     </div>
-    <section aria-label="Resumo do atendimento">
-      <h2>Escova Modelada — R$ 80,00</h2>
-      <p><span class="badge-pago">✔ Sinal 50%: R$ 40,00</span></p>
-      <button class="btn" type="button">Continuar para Sinal (R$ 40,00)</button>
+
+    <form class="card" onsubmit="gerarReserva(event)">
+      <label for="servico">Selecione o Serviço</label>
+      <select id="servico" onchange="atualizarSinal()">
+        <option value="80">Escova Modelada — R$ 80,00</option>
+        <option value="350">Mechas &amp; Iluminação — R$ 350,00</option>
+        <option value="180">Cronograma Capilar Completo — R$ 180,00</option>
+        <option value="95">Corte Bordado + Hidratação — R$ 95,00</option>
+      </select>
+
+      <div class="badge" id="badgeSinal">✓ Sinal 50%: R$ 40,00</div>
+
+      <label for="nome">Nome Completo da Cliente</label>
+      <input type="text" id="nome" placeholder="Ex.: Mariana Costa" required />
+
+      <label for="whats">WhatsApp (DDD + Número)</label>
+      <input type="tel" id="whats" placeholder="Ex.: (83) 99876-5432" required />
+
+      <label for="horario">Data e Horário Desejado</label>
+      <input type="datetime-local" id="horario" value="2026-11-18T14:00" required />
+
+      <div class="lgpd-box">
+        <input type="checkbox" id="lgpd" checked required />
+        <label for="lgpd" style="margin:0; font-weight:normal;">
+          Autorizo o uso dos meus dados exclusivamente para agendamento (LGPD).
+        </label>
+      </div>
+
+      <button type="submit" class="btn" id="btnContinuar">
+        Continuar para Sinal (R$ 40,00)
+      </button>
+    </form>
+
+    <section class="card" id="resumo" aria-live="polite">
+      <h2>✓ Pré-Reserva Registrada (OS #SKH-2026)</h2>
+      <p id="detalhesReserva"></p>
+      <a class="btn btn-whats" id="linkWhats" target="_blank" rel="noopener">
+        Enviar Comprovante do Sinal pelo WhatsApp
+      </a>
     </section>
-  </main>
+  </div>
+
+  <script>
+    function atualizarSinal() {
+      const total = Number(document.getElementById('servico').value);
+      const sinal = (total / 2).toFixed(2).replace('.', ',');
+      document.getElementById('badgeSinal').textContent = `✓ Sinal 50%: R$ ${sinal}`;
+      document.getElementById('btnContinuar').textContent = `Continuar para Sinal (R$ ${sinal})`;
+    }
+
+    function gerarReserva(e) {
+      e.preventDefault();
+      const select = document.getElementById('servico');
+      const servicoTexto = select.options[select.selectedIndex].text;
+      const total = Number(select.value);
+      const sinal = (total / 2).toFixed(2).replace('.', ',');
+      const saldo = (total / 2).toFixed(2).replace('.', ',');
+      const nome = document.getElementById('nome').value;
+      const whats = document.getElementById('whats').value;
+      const horario = document.getElementById('horario').value.replace('T', ' às ');
+
+      document.getElementById('detalhesReserva').innerHTML =
+        `<strong>Cliente:</strong> ${nome} (${whats})<br>` +
+        `<strong>Serviço:</strong> ${servicoTexto}<br>` +
+        `<strong>Horário:</strong> ${horario}<br>` +
+        `<strong>Sinal Obrigatório (50%):</strong> R$ ${sinal} | <strong>Saldo no Salão:</strong> R$ ${saldo}<br>` +
+        `<strong>Status:</strong> Aguardando envio do comprovante (expira em 15 min).`;
+
+      const msg = encodeURIComponent(`Olá! Segue pré-reserva de ${nome} - ${servicoTexto} (${horario}). Sinal 50%: R$ ${sinal}.`);
+      document.getElementById('linkWhats').href = `https://wa.me/5583999999999?text=${msg}`;
+
+      const resumo = document.getElementById('resumo');
+      resumo.style.display = 'block';
+      resumo.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function alternarAcessibilidade() {
+      const ativo = document.body.classList.toggle('acessivel');
+      const btn = document.getElementById('btnA11y');
+      btn.setAttribute('aria-pressed', ativo);
+      btn.textContent = ativo ? '♿ Desativar Alto Contraste' : '♿ Alto Contraste + Fonte A+';
+    }
+  </script>
 </body>
 </html>
