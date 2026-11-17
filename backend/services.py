@@ -65,3 +65,9 @@ def concluir_os_e_ratear(valor_total: float, percentual_comissao: float = 0.50) 
         "comissao_profissional": comissao_profissional,
         "liquido_salao": liquido_salao,
     }
+
+def gerar_link_whatsapp(telefone: str, cliente_nome: str, servico: str, horario: str) -> str:
+    """Gera link direto wa.me com mensagem formatada para comprovante ou lembrete (RF06)."""
+    numeros = "".join(filter(str.isdigit, telefone))
+    mensagem = f"Olá {cliente_nome}, seu agendamento de {servico} às {horario} no StudioKassandraHair está confirmado!"
+    return f"https://wa.me/55{numeros}?text={mensagem.replace(' ', '%20')}"
