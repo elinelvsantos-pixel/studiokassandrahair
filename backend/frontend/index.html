@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudioKassandraHair — Agendamento Online</title>
+  <style>
+    :root {
+      --plum: #4a0e2e;
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --green: #146c2e;
+      --amber: #8a5300;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
+    header { background: var(--plum); color: #fff; padding: 16px; border-radius: 8px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; min-width: 48px; width: 100%; padding: 12px 16px;
+      font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
+      background: var(--plum); color: #fff; border: none; margin-top: 12px;
+    }
+    .badge-pago { background: var(--green); color: #fff; padding: 6px 10px; border-radius: 6px; font-weight: bold; }
+    .alerta { background: #fff4e5; border-left: 6px solid var(--amber); padding: 12px; margin: 12px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>StudioKassandraHair</h1>
+    <p>João Pessoa • Agende com sinal de 50%</p>
+  </header>
+  <main>
+    <div class="alerta" role="status">
+      <strong>Aviso:</strong> Pré-reservas aguardando sinal expiram automaticamente em 15 minutos.
+    </div>
+    <section aria-label="Resumo do atendimento">
+      <h2>Escova Modelada — R$ 80,00</h2>
+      <p><span class="badge-pago">✔ Sinal 50%: R$ 40,00</span></p>
+      <button class="btn" type="button">Continuar para Sinal (R$ 40,00)</button>
+    </section>
+  </main>
+</body>
+</html>
