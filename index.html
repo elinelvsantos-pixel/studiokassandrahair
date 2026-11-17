@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudioKassandraHair | Agendamento Online</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="container header-flex">
+      <div>
+        <h1>StudioKassandraHair</h1>
+        <p class="subtitulo">Beleza, cuidado e agendamento rápido em João Pessoa</p>
+      </div>
+      <div class="acoes-topo">
+        <button id="btn-contraste" type="button" class="btn-secundario" aria-pressed="false">
+          Alto Contraste
+        </button>
+        <a href="gestao.html" class="btn-secundario" style="text-decoration:none;">
+          Área da Equipe
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="titulo-agendamento">
+      <h2 id="titulo-agendamento">Faça sua Pré-Reserva</h2>
+      <p class="aviso-horario">
+        Atendimento de <strong>Terça a Sábado, das 09h00 às 19h00</strong>. Confirmação mediante sinal de 50% via PIX em até 15 minutos.
+      </p>
+
+      <form id="form-reserva">
+        <div class="form-group">
+          <label for="cliente-nome">Seu Nome Completo *</label>
+          <input type="text" id="cliente-nome" required placeholder="Ex: Ana Paula Souza" />
+        </div>
+
+        <div class="form-group">
+          <label for="cliente-telefone">Seu WhatsApp *</label>
+          <input type="tel" id="cliente-telefone" required placeholder="(83) 99999-9999" />
+        </div>
+
+        <div class="form-group">
+          <label for="profissional">Profissional *</label>
+          <select id="profissional" required></select>
+        </div>
+
+        <div class="form-group">
+          <label for="servico">Serviço Desejado *</label>
+          <select id="servico" required>
+            <option value="" data-valor="0" data-duracao="0">Selecione um serviço...</option>
+            <option value="Escova Modelada" data-valor="60" data-duracao="60">Escova Modelada — R$ 60,00 (60 min)</option>
+            <option value="Hidratação + Escova" data-valor="90" data-duracao="90">Hidratação + Escova — R$ 90,00 (90 min)</option>
+            <option value="Corte Feminino" data-valor="70" data-duracao="60">Corte Feminino — R$ 70,00 (60 min)</option>
+            <option value="Progressiva / Alinhamento" data-valor="180" data-duracao="180">Progressiva / Alinhamento — R$ 180,00 (180 min)</option>
+            <option value="Tranças / Penteado" data-valor="140" data-duracao="150">Tranças / Penteado — R$ 140,00 (150 min)</option>
+          </select>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="data-reserva">Data (Terça a Sábado) *</label>
+            <input type="date" id="data-reserva" required />
+          </div>
+
+          <div class="form-group">
+            <label for="hora-reserva">Horário (09:00 às 19:00) *</label>
+            <input type="time" id="hora-reserva" min="09:00" max="19:00" required />
+          </div>
+        </div>
+
+        <!-- RESUMO FINANCEIRO E PIX -->
+        <div id="box-resumo" class="resumo-pix hidden" aria-live="polite">
+          <p><strong>Valor Total:</strong> <span id="txt-total">R$ 0,00</span></p>
+          <p><strong>Sinal Obrigatório (50%):</strong> <span id="txt-sinal">R$ 0,00</span></p>
+          <p><strong>Duração Estimada:</strong> <span id="txt-duracao">0 min</span></p>
+
+          <div class="pix-box">
+            <label for="chave-pix">Chave PIX (E-mail / Celular):</label>
+            <div class="pix-row">
+              <input type="text" id="chave-pix" value="83987547799" readonly />
+              <button type="button" id="btn-copiar-pix" class="btn-secundario">Copiar PIX</button>
+            </div>
+            <small id="feedback-pix" class="feedback-ok"></small>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-lgpd">
+          <input type="checkbox" id="aceite-lgpd" required />
+          <label for="aceite-lgpd">
+            Concordo com o uso do meu nome e telefone exclusivamente para confirmação deste atendimento (LGPD).
+          </label>
+        </div>
+
+        <p id="erro-horario" class="erro-msg hidden" role="alert"></p>
+
+        <button type="submit" class="btn-primario">
+          Confirmar Pré-Reserva e Enviar Comprovante no WhatsApp
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
