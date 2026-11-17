@@ -1,6 +1,6 @@
 const STORAGE_USERS = "skh_usuarios_v1";
 const STORAGE_BOOKINGS = "skh_agendamentos_v1";
-const WHATSAPP_SALAO = "5583987547799";
+const WHATSAPP_SALAO = "5583987547799"; // Número do WhatsApp do StudioKassandraHair
 
 // Carrega profissionais cadastrados no portal de gestão (ou Kassandra como padrão)
 function carregarProfissionais() {
@@ -62,7 +62,7 @@ function validarJanelaComercial(dataStr, horaStr) {
   return null;
 }
 
-// Geração da reserva + gravação na agenda interna + envio para WhatsApp
+// Geração da reserva + gravação na agenda interna + comprovante na tela + WhatsApp
 document.getElementById("form-reserva").addEventListener("submit", (e) => {
   e.preventDefault();
   const erroEl = document.getElementById("erro-horario");
@@ -86,15 +86,18 @@ document.getElementById("form-reserva").addEventListener("submit", (e) => {
   const valorTotal = Number(optServ.dataset.valor);
   const duracaoMin = Number(optServ.dataset.duracao);
   const sinal = valorTotal * 0.5;
+  const codigoReserva = "SKH-" + String(Date.now()).slice(-5);
+  const profissionalNome = selProf.selectedOptions[0].text;
 
   // Salva agendamento na fila do profissional escolhido (visível em gestao.html)
   const agendamentos = JSON.parse(localStorage.getItem(STORAGE_BOOKINGS) || "[]");
   agendamentos.push({
     id: "ag_" + Date.now(),
+    codigo: codigoReserva,
     cliente: nome,
     telefone,
     profissionalId: selProf.value,
-    profissionalNome: selProf.selectedOptions[0].text,
+    profissionalNome,
     servico: selServ.value,
     duracaoMin,
     valorTotal,
@@ -105,19 +108,60 @@ document.getElementById("form-reserva").addEventListener("submit", (e) => {
   });
   localStorage.setItem(STORAGE_BOOKINGS, JSON.stringify(agendamentos));
 
-  // Monta mensagem estruturada para o WhatsApp
   const dataFormatada = data.split("-").reverse().join("/");
-  const mensagem =
-    `Olá, StudioKassandraHair! Gostaria de confirmar minha pré-reserva:\n\n` +
+
+  // 1. Preenche e exibe o Cartão de Comprovante Instantâneo na Tela da Cliente
+  document.getElementById("detalhes-comprovante").innerHTML = `
+    <p style="margin:0.25rem 0;"><strong>Código da Reserva:</strong> ${codigoReserva}</p>
+    <p style="margin:0.25rem 0;"><strong>Cliente:</strong> ${nome}</p>
+    <p style="margin:0.25rem 0;"><strong>Profissional:</strong> ${profissionalNome}</p>
+    <p style="margin:0.25rem 0;"><strong>Serviço:</strong> ${selServ.value} (${duracaoMin} min)</p>
+    <p style="margin:0.25rem 0;"><strong>Data e Horário:</strong> ${dataFormatada} às ${hora}</p>
+    <p style="margin:0.25rem 0;"><strong>Valor Total:</strong> R$ ${valorTotal.toFixed(2)} | <strong>Sinal PIX (50%):</strong> R$ ${sinal.toFixed(2)}</p>
+    <p style="margin:0.25rem 0;"><strong>Chave PIX:</strong> ${document.getElementById("chave-pix").value}</p>
+  `;
+
+  // 2. Configura o botão para a própria cliente salvar o comprovante no WhatsApp dela
+  const telLimpo = telefone.replace(/\D/g, "");
+  const numeroCliente = telLimpo.startsWith("55") ? telLimpo : `55${telLimpo}`;
+  const msgParaCliente =
+    `*COMPROVANTE DE PRÉ-RESERVA — StudioKassandraHair*\n\n` +
+    `*Código:* ${codigoReserva}\n` +
     `*Cliente:* ${nome}\n` +
-    `*Profissional:* ${selProf.selectedOptions[0].text}\n` +
+    `*Profissional:* ${profissionalNome}\n` +
+    `*Serviço:* ${selServ.value} (${duracaoMin} min)\n` +
+    `*Data/Hora:* ${dataFormatada} às ${hora}\n` +
+    `*Valor Total:* R$ ${valorTotal.toFixed(2)}\n` +
+    `*Sinal PIX (50%):* R$ ${sinal.toFixed(2)} (Chave: ${document.getElementById("chave-pix").value})\n\n` +
+    `_Lembrete: envie o comprovante do PIX para o salão em até 15 minutos para confirmar o horário._`;
+
+  document.getElementById("link-whatsapp-cliente").href =
+    `https://wa.me/${numeroCliente}?text=${encodeURIComponent(msgParaCliente)}`;
+
+  const secComprovante = document.getElementById("sec-comprovante");
+  secComprovante.classList.remove("hidden");
+  secComprovante.scrollIntoView({ behavior: "smooth" });
+
+  // 3. Abre o WhatsApp do Salão para envio imediato do comprovante PIX
+  const msgParaSalao =
+    `Olá, StudioKassandraHair! Gostaria de confirmar minha pré-reserva (${codigoReserva}):\n\n` +
+    `*Cliente:* ${nome}\n` +
+    `*Profissional:* ${profissionalNome}\n` +
     `*Serviço:* ${selServ.value} (${duracaoMin} min)\n` +
     `*Data/Hora:* ${dataFormatada} às ${hora}\n` +
     `*Valor Total:* R$ ${valorTotal.toFixed(2)}\n` +
     `*Sinal (50% via PIX):* R$ ${sinal.toFixed(2)}\n\n` +
     `_Segue em anexo o comprovante do PIX (validade da pré-reserva: 15 min)._`;
 
-  window.open(`https://wa.me/${WHATSAPP_SALAO}?text=${encodeURIComponent(mensagem)}`, "_blank");
+  window.open(`https://wa.me/${WHATSAPP_SALAO}?text=${encodeURIComponent(msgParaSalao)}`, "_blank");
+});
+
+// Botão para limpar e iniciar um novo agendamento
+document.getElementById("btn-novo-agendamento").addEventListener("click", () => {
+  document.getElementById("form-reserva").reset();
+  document.getElementById("box-resumo").classList.add("hidden");
+  document.getElementById("sec-comprovante").classList.add("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 // Modo Alto Contraste WCAG 2.1 AA
