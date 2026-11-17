@@ -3,235 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudioKassandraHair – Agendamento Online</title>
-  <style>
-    :root {
-      --plum: #4a0e2e;
-      --bg: #ffffff;
-      --card: #f9f6f8;
-      --text: #1a1a1a;
-      --green: #146c2e;
-      --red-bg: #fde8e8;
-      --red-border: #9b1c1c;
-      --amber-bg: #fff6e5;
-      --amber-border: #8a5300;
-      --border: #d0c4cb;
-    }
-    body.acessivel {
-      --plum: #000000;
-      --bg: #000000;
-      --card: #121212;
-      --text: #ffff00;
-      --green: #005a1f;
-      --red-bg: #2b0000;
-      --red-border: #ff6b6b;
-      --amber-bg: #1f1a00;
-      --amber-border: #ffd700;
-      --border: #ffff00;
-      font-size: 1.2rem;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 16px;
-      line-height: 1.5;
-    }
-    .container { max-width: 680px; margin: 0 auto; }
-    header {
-      background: var(--plum);
-      color: #ffffff;
-      padding: 18px;
-      border-radius: 8px;
-      border: 2px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    header h1 { margin: 0 0 4px 0; font-size: 1.5rem; }
-    header p { margin: 0; font-size: 0.95rem; }
-    .btn-a11y {
-      min-height: 48px;
-      min-width: 48px;
-      padding: 10px 16px;
-      background: #ffffff;
-      color: #1a1a1a;
-      border: 2px solid #ffff00;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    body.acessivel .btn-a11y { background: #ffff00; color: #000000; }
-    .aviso {
-      background: var(--amber-bg);
-      border-left: 5px solid var(--amber-border);
-      padding: 12px 14px;
-      margin: 16px 0;
-      border-radius: 4px;
-    }
-    .erro-horario {
-      display: none;
-      background: var(--red-bg);
-      border-left: 5px solid var(--red-border);
-      padding: 10px 14px;
-      margin-top: 8px;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    label { display: block; font-weight: bold; margin: 12px 0 6px 0; }
-    input, select {
-      width: 100%;
-      min-height: 48px;
-      padding: 10px 12px;
-      font-size: 1rem;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-      color: var(--text);
-      box-sizing: border-box;
-    }
-    .lgpd-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-    }
-    .lgpd-box input { width: 24px; height: 24px; min-height: 24px; }
-    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-    .badge {
-      display: inline-block;
-      background: var(--green);
-      color: #ffffff;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    .badge-tempo {
-      display: inline-block;
-      background: var(--plum);
-      color: #ffffff;
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    .pix-box {
-      background: var(--amber-bg);
-      border: 2px dashed var(--amber-border);
-      border-radius: 8px;
-      padding: 12px;
-      margin: 12px 0;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      min-width: 48px;
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--plum);
-      color: #ffffff;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      box-sizing: border-box;
-      margin-top: 10px;
-    }
-    body.acessivel .btn { background: #ffff00; color: #000000; }
-    .btn-whats { background: var(--green); color: #ffffff !important; }
-    .btn-pix { background: #1f2937; color: #ffffff !important; margin-top: 8px; }
-    #resumo { display: none; border: 2px solid var(--green); }
-  </style>
+  <title>StudioKassandraHair | Agendamento Online</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
+  <header class="topo">
+    <div class="container header-flex">
       <div>
         <h1>StudioKassandraHair</h1>
-        <p>João Pessoa • Agende com sinal de 50%</p>
+        <p class="subtitulo">Beleza, cuidado e agendamento rápido em João Pessoa</p>
       </div>
-      <button type="button" class="btn-a11y" id="btnA11y" aria-pressed="false" onclick="alternarAcessibilidade()">
-        ♿ Alto Contraste + Fonte A+
-      </button>
-    </header>
-
-    <div class="aviso" role="status">
-      <strong>Aviso:</strong> Atendimento de terça a sábado (09h às 19h). Pré-reservas aguardando sinal expiram em 15 minutos.
-    </div>
-
-    <form class="card" onsubmit="gerarReserva(event)">
-      <label for="servico">Selecione o Serviço</label>
-      <select id="servico" onchange="atualizarSinal()">
-        <option value="80" data-duracao="1h00">Escova Modelada (1h00) — R$ 80,00</option>
-        <option value="350" data-duracao="3h30">Mechas &amp; Iluminação (3h30) — R$ 350,00</option>
-        <option value="180" data-duracao="2h00">Cronograma Capilar Completo (2h00) — R$ 180,00</option>
-        <option value="95" data-duracao="1h15">Corte Bordado + Hidratação (1h15) — R$ 95,00</option>
-      </select>
-
-      <div class="badges">
-        <span class="badge" id="badgeSinal">✓ Sinal 50%: R$ 40,00</span>
-        <span class="badge-tempo" id="badgeDuracao">⏱ Duração estimada: 1h00</span>
-      </div>
-
-      <label for="nome">Nome Completo da Cliente</label>
-      <input type="text" id="nome" placeholder="Ex.: Mariana Costa" required />
-
-      <label for="whats">WhatsApp (DDD + Número)</label>
-      <input type="tel" id="whats" placeholder="Ex.: (83) 99876-5432" required />
-
-      <label for="horario">Data e Horário Desejado (Terça a Sábado, 09h às 19h)</label>
-      <input type="datetime-local" id="horario" value="2026-11-18T14:00" onchange="validarJanelaComercial()" required />
-      <div class="erro-horario" id="erroHorario" role="alert" aria-live="polite"></div>
-
-      <div class="lgpd-box">
-        <input type="checkbox" id="lgpd" checked required />
-        <label for="lgpd" style="margin:0; font-weight:normal;">
-          Autorizo o uso dos meus dados exclusivamente para agendamento (LGPD).
-        </label>
-      </div>
-
-      <button type="submit" class="btn" id="btnContinuar">
-        Continuar para Sinal (R$ 40,00)
-      </button>
-    </form>
-
-    <section class="card" id="resumo" aria-live="polite">
-      <h2>✓ Pré-Reserva Registrada (OS #SKH-2026)</h2>
-      <p id="detalhesReserva"></p>
-
-      <div class="pix-box">
-        <strong>Chave PIX para Sinal (50%):</strong> <span id="chavePix">studiokassandrahair@pix.com.br</span><br>
-        <small>Titular: Kassandra • StudioKassandraHair (João Pessoa/PB)</small>
-        <button type="button" class="btn btn-pix" id="btnCopiarPix" onclick="copiarPix()">
-          Copiar Chave PIX
+      <div class="acoes-topo">
+        <button id="btn-contraste" type="button" class="btn-secundario" aria-pressed="false">
+          Alto Contraste
         </button>
+        <a href="gestao.html" class="btn-secundario" style="text-decoration:none;">
+          Área da Equipe
+        </a>
       </div>
+    </div>
+  </header>
 
-      <a class="btn btn-whats" id="linkWhats" target="_blank" rel="noopener">
-        Enviar Comprovante do Sinal pelo WhatsApp
-      </a>
+  <main class="container">
+    <section class="card" aria-labelledby="titulo-agendamento">
+      <h2 id="titulo-agendamento">Faça sua Pré-Reserva</h2>
+      <p class="aviso-horario">
+        Atendimento de <strong>Terça a Sábado, das 09h00 às 19h00</strong>. Confirmação mediante sinal de 50% via PIX em até 15 minutos.
+      </p>
+
+      <form id="form-reserva">
+        <div class="form-group">
+          <label for="cliente-nome">Seu Nome Completo *</label>
+          <input type="text" id="cliente-nome" required placeholder="Ex: Ana Paula Souza" />
+        </div>
+
+        <div class="form-group">
+          <label for="cliente-telefone">Seu WhatsApp *</label>
+          <input type="tel" id="cliente-telefone" required placeholder="(83) 99999-9999" />
+        </div>
+
+        <div class="form-group">
+          <label for="profissional">Profissional *</label>
+          <select id="profissional" required></select>
+        </div>
+
+        <div class="form-group">
+          <label for="servico">Serviço Desejado *</label>
+          <select id="servico" required>
+            <option value="" data-valor="0" data-duracao="0">Selecione um serviço...</option>
+            <option value="Escova Modelada" data-valor="60" data-duracao="60">Escova Modelada — R$ 60,00 (60 min)</option>
+            <option value="Hidratação + Escova" data-valor="90" data-duracao="90">Hidratação + Escova — R$ 90,00 (90 min)</option>
+            <option value="Corte Feminino" data-valor="70" data-duracao="60">Corte Feminino — R$ 70,00 (60 min)</option>
+            <option value="Progressiva / Alinhamento" data-valor="180" data-duracao="180">Progressiva / Alinhamento — R$ 180,00 (180 min)</option>
+            <option value="Tranças / Penteado" data-valor="140" data-duracao="150">Tranças / Penteado — R$ 140,00 (150 min)</option>
+          </select>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="data-reserva">Data (Terça a Sábado) *</label>
+            <input type="date" id="data-reserva" required />
+          </div>
+
+          <div class="form-group">
+            <label for="hora-reserva">Horário (09:00 às 19:00) *</label>
+            <input type="time" id="hora-reserva" min="09:00" max="19:00" required />
+          </div>
+        </div>
+
+        <!-- RESUMO FINANCEIRO E PIX -->
+        <div id="box-resumo" class="resumo-pix hidden" aria-live="polite">
+          <p><strong>Valor Total:</strong> <span id="txt-total">R$ 0,00</span></p>
+          <p><strong>Sinal Obrigatório (50%):</strong> <span id="txt-sinal">R$ 0,00</span></p>
+          <p><strong>Duração Estimada:</strong> <span id="txt-duracao">0 min</span></p>
+
+          <div class="pix-box">
+            <label for="chave-pix">Chave PIX (E-mail / Celular):</label>
+            <div class="pix-row">
+              <input type="text" id="chave-pix" value="studiokassandrahair@pix.com.br" readonly />
+              <button type="button" id="btn-copiar-pix" class="btn-secundario">Copiar PIX</button>
+            </div>
+            <small id="feedback-pix" class="feedback-ok"></small>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-lgpd">
+          <input type="checkbox" id="aceite-lgpd" required />
+          <label for="aceite-lgpd">
+            Concordo com o uso do meu nome e telefone exclusivamente para confirmação deste atendimento (LGPD).
+          </label>
+        </div>
+
+        <p id="erro-horario" class="erro-msg hidden" role="alert"></p>
+
+        <button type="submit" class="btn-primario">
+          Confirmar Pré-Reserva e Enviar Comprovante no WhatsApp
+        </button>
+      </form>
     </section>
-  </div>
+  </main>
 
-  <script>
-    function atualizarSinal() {
-      const select = document.getElementById('servico');
-      const total = Number(select.value);
-      const duracao = select.options[select.selectedIndex].dataset.duracao;
-      const sinal = (total / 2).toFixed(2).replace('.', ',');
-      document.getElementById('badgeSinal').textContent = `✓ Sinal 50%: R$ ${sinal}`;
-      document.getElementById('badgeDuracao').textContent = `⏱ Duração
+  <script src="script.js"></script>
+</body>
+</html>
